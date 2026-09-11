@@ -355,8 +355,7 @@ body{
       <div class="meta-info" id="metaInfo"></div>
       <div class="meta-divider"></div>
       <div id="lines"></div>
-      <div id="lines"></div>
-
+  
       <div class="total-row">
         <div class="total-label">TỔNG CỘNG</div>
         <div class="total-value" id="total">0 đ</div>
@@ -423,6 +422,7 @@ function computeAll(){
 
    // Bìa
   const biaRate = (theloai === 'artist_book' || theloai === 'catalogue') ? 5000000 : 3000000;
+  const bia = biaRate;
   
   // Soát bông / soát in
   const soatbong = 6000 * sotrang;
