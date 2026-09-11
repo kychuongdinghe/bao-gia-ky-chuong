@@ -293,7 +293,7 @@ body{
           <input type="checkbox" id="svc_mentor">
           <div class="service-text">
               <span class="service-name">Tư vấn bản thảo</span>
-              <span class="service-hint"> — Thẩm định và hỗ trợ định hướng bản thảo</span>
+              <span class="service-hint">Thẩm định và hỗ trợ định hướng bản thảo</span>
           </div>
           <div class="service-price" id="price_mentor">—</div>
         </div>
@@ -326,7 +326,7 @@ body{
          <input type="checkbox" id="svc_bia">
             <div class="service-text">
               <span class="service-name">Bìa sách</span>
-                <span class="service-hint"> — Tùy vào yêu cầu vẽ hoặc thiết kế</span>
+                <span class="service-hint">Tùy vào yêu cầu vẽ hoặc thiết kế</span>
           </div>
           <div class="service-price" id="price_bia">—</div>
         </div>
@@ -350,7 +350,8 @@ body{
         <div class="service-row">
           <input type="checkbox" id="svc_inan">
           <div class="service-text">
-            <div class="service-name">In ấn</div>
+              <span class="service-name">In ấn</span>
+                <span class="service-hint">Tùy vào yêu cầu quy cách và số lượng bản in</span>
           </div>
           <div class="service-price" id="price_inan">—</div>
         </div>
@@ -453,16 +454,33 @@ function computeAll(){
   const discountPct = Math.min(steps * 10, 50); // giới hạn giảm tối đa 50%
   const inan = inanRate * soluong * (1 - discountPct/100);
 
-  // Tư vấn xuất bản = 10% tổng các chi phí dịch vụ còn lại
-  const mentor = (
-                    giayphep +
-                    bientap +
-                    dantrang +
-                    bia +
-                    soatbong +
-                    soatin +
-                    inan
-                              ) * 0.10;
+  // Tư vấn xuất bản
+// Có dịch vụ được chọn → 10% tổng các dịch vụ đã chọn
+// Không có dịch vụ nào được chọn → 20.000đ × số trang
+
+const serviceValues = [
+  { id: 'svc_giayphep', value: giayphep },
+  { id: 'svc_bientap', value: bientap },
+  { id: 'svc_dantrang', value: dantrang },
+  { id: 'svc_bia', value: bia },
+  { id: 'svc_soatbong', value: soatbong },
+  { id: 'svc_soatin', value: soatin },
+  { id: 'svc_inan', value: inan }
+];
+
+const checkedServiceTotal = serviceValues.reduce((sum, service) => {
+  const checkbox = document.getElementById(service.id);
+
+  if (checkbox && checkbox.checked) {
+    return sum + service.value;
+  }
+
+  return sum;
+}, 0);
+
+const mentor = checkedServiceTotal > 0
+  ? checkedServiceTotal * 0.10
+  : 20000 * sotrang;
 
   return {
     giayphep, bientap, bientapRate, dantrang, dantrangRate, bia, biaRate,
@@ -506,6 +524,7 @@ function render(){
   });
 
   const items = [
+    {id:'svc_mentor', name:'Tư vấn xuất bản', value:c.mentor},
     {id:'svc_giayphep', name:'Giấy phép xuất bản', value:c.giayphep},
     {id:'svc_bientap', name:'Biên tập bản thảo', value:c.bientap},
     {id:'svc_dantrang', name:'Dàn trang', value:c.dantrang},
@@ -513,8 +532,7 @@ function render(){
     {id:'svc_soatbong', name:'Soát bông', value:c.soatbong},
     {id:'svc_soatin', name:'Soát in', value:c.soatin},
     {id:'svc_inan', name:'In ấn', value:c.inan},
-    {id:'svc_mentor', name:'Tư vấn xuất bản', value:c.mentor},
-  ];
+   ];
 
   const linesEl = document.getElementById('lines');
   linesEl.innerHTML = '';
