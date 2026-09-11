@@ -20,13 +20,18 @@
   }
   *{box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;}
-  body{
+html, body{
     margin:0;
-    background:var(--paper);
+    background:transparent;
+}
+body{
     color:var(--ink);
     font-family:'IBM Plex Sans', sans-serif;
     line-height:1.5;
-  }
+}
+.page-wrap{
+    background:var(--paper);
+}
   .serif{font-family:'Newsreader', serif;}
   .compact-title{
     max-width:1080px;
@@ -151,6 +156,19 @@
     color:#B9B2A0;
     margin:0 0 10px;
   }
+
+  .meta-info{margin-bottom:10px;}
+  .meta-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:12.5px;
+  padding:3px 0;
+  color:#B9B2A0;
+}
+  .meta-row .m-val{color:#E7DCC9;text-align:right;}
+  .meta-divider{border-bottom:1px solid #3A362D;margin:10px 0 4px;}
+  
   .line{
     display:flex;
     justify-content:space-between;
@@ -218,8 +236,8 @@
 </style>
 </head>
 <body>
-
-<p class="compact-title">Kỳ Chương — Ước tính chi phí xuất bản</p>
+<div class="page-wrap">
+<p class="compact-title">ƯỚC TÍNH CHI PHÍ XUẤT BẢN</p>
 
 <main>
   <div class="layout">
@@ -325,7 +343,10 @@
     <aside class="receipt">
       <h2>Báo giá tạm tính</h2>
       <p class="receipt-sub">Cập nhật theo lựa chọn của bạn</p>
-
+      
+      <div class="meta-info" id="metaInfo"></div>
+      <div class="meta-divider"></div>
+      <div id="lines"></div>
       <div id="lines"></div>
 
       <div class="total-row">
@@ -345,9 +366,11 @@
 </main>
 
 <footer>
-  Kỳ Chương — Dịch vụ xuất bản. Giá trên chỉ mang tính tham khảo, giá cuối cùng sẽ được xác nhận sau khi Kỳ Chương xem qua bản thảo cụ thể.
+  Giá trên chỉ mang tính tham khảo, giá cuối cùng sẽ được xác nhận sau khi Kỳ Chương xem qua bản thảo cụ thể.
 </footer>
 
+</div>  
+  
 <script>
 const CATEGORY_LABELS = {
   van_hoc: "Sách văn học",
@@ -387,7 +410,7 @@ function computeAll(){
   const bientap = bientapRate * sotrang;
 
   // Dàn trang
-  const dantrangRate = (theloai === 'artist_book' || theloai === 'catalogue') ? 30000 : 10000;
+  const dantrangRate = (theloai === 'artist_book' || theloai === 'catalogue') ? 50000 : 10000;
   const dantrang = dantrangRate * sotrang;
 
   // Soát bông / soát in
@@ -397,7 +420,7 @@ function computeAll(){
   // In ấn
   let inanRate;
   if(theloai === 'artist_book'){
-    inanRate = 120000;
+    inanRate = 180000;
   } else {
     inanRate = sotrang >= 100 ? 70000 : 50000;
   }
@@ -417,6 +440,13 @@ function computeAll(){
 
 function render(){
   const c = computeAll();
+  const categoryLabel = CATEGORY_LABELS[c.theloai];
+
+  document.getElementById('metaInfo').innerHTML = `
+    <div class="meta-row"><span>Thể loại</span><span class="m-val">${categoryLabel}</span></div>
+    <div class="meta-row"><span>Số trang</span><span class="m-val">${c.sotrang} trang</span></div>
+    <div class="meta-row"><span>Số lượng bản in</span><span class="m-val">${c.soluong} bản</span></div>
+  `;
 
   document.getElementById('price_giayphep').textContent = vnd(c.giayphep);
   document.getElementById('price_bientap').textContent = vnd(c.bientap);
@@ -490,8 +520,10 @@ function updateContactLink(c, items, total){
   body += `Cảm ơn Kỳ Chương.`;
 
   const subject = `Yêu cầu báo giá xuất bản — ${categoryLabel} — ${sotrang} trang — ${soluong} bản`;
-  const mailto = `mailto:kychuongdinghe@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  btn.href = mailto;
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=kychuongdinghe@gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  btn.href = gmailUrl;
+  btn.target = '_blank';
+  btn.rel = 'noopener';
 }
 
 ['theloai','sotrang','soluong'].forEach(id => {
