@@ -105,10 +105,17 @@ body{
     margin-top:12px;
   }
   @media (max-width:520px){
-    .field-pair{grid-template-columns:1fr;}
+  .field-pair{grid-template-columns:1fr;}
   }
   .hint{font-size:12px;color:var(--ink-soft);margin-top:3px;}
 
+  .service-hint {
+  font-size: 10px;
+  color: var(--ink-soft);
+  font-weight: 400;
+  margin-top: 3px;
+  }
+  
   .service-row{
     display:flex;
     align-items:center;
@@ -305,13 +312,14 @@ body{
         </div>
 
         <div class="service-row">
-          <input type="checkbox" id="svc_bia" checked>
-          <div class="service-text">
-            <div class="service-name">Bìa</div>
+         <input type="checkbox" id="svc_bia" checked>
+            <div class="service-text">
+              <div class="service-name">Bìa</div>
+            <div class="service-hint">Tùy vào yêu cầu vẽ hoặc thiết kế</div>
           </div>
           <div class="service-price" id="price_bia">—</div>
         </div>
-
+        
         <div class="service-row">
           <input type="checkbox" id="svc_soatbong" checked>
           <div class="service-text">
