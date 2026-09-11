@@ -129,8 +129,8 @@ body{
     accent-color:var(--oxblood);
     flex-shrink:0;
   }
-  .service-text{flex:1;}
-  .service-name{font-weight:500;font-size:14.5px;}
+  .service-text {display: flex;  align-items: baseline; flex-wrap: wrap;}
+  .service-name {font-weight:500;font-size:14.5px; margin-right: 4px;}
   .service-price{
     font-family:'Newsreader', serif;
     font-size:15.5px;
@@ -314,8 +314,8 @@ body{
         <div class="service-row">
          <input type="checkbox" id="svc_bia" checked>
             <div class="service-text">
-              <div class="service-name">Bìa</div>
-            <div class="service-hint">Tùy vào yêu cầu vẽ hoặc thiết kế</div>
+              <span class="service-name">Bìa sách</span>
+                <span class="service-hint"> — Tùy vào yêu cầu vẽ hoặc thiết kế</span>
           </div>
           <div class="service-price" id="price_bia">—</div>
         </div>
