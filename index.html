@@ -452,14 +452,14 @@ function computeAll(){
 
   // Tư vấn xuất bản = 10% tổng các chi phí dịch vụ còn lại
   const mentor = (
-  giayphep +
-  bientap +
-  dantrang +
-  bia +
-  soatbong +
-  soatin +
-  inan
-                  ) * 0.10;
+                    giayphep +
+                    bientap +
+                    dantrang +
+                    bia +
+                    soatbong +
+                    soatin +
+                    inan
+                              ) * 0.10;
 
   return {
     giayphep, bientap, bientapRate, dantrang, dantrangRate, bia, biaRate,
@@ -478,14 +478,29 @@ function render(){
     <div class="meta-row"><span>Số lượng bản in</span><span class="m-val">${c.soluong} bản</span></div>
   `;
 
-  document.getElementById('price_giayphep').textContent = vnd(c.giayphep);
-  document.getElementById('price_bientap').textContent = vnd(c.bientap);
-  document.getElementById('price_dantrang').textContent = vnd(c.dantrang);
-  document.getElementById('price_bia').textContent = vnd(c.bia);
-  document.getElementById('price_soatbong').textContent = vnd(c.soatbong);
-  document.getElementById('price_soatin').textContent = vnd(c.soatin);
-  document.getElementById('price_inan').textContent = vnd(c.inan);
-  document.getElementById('price_mentor').textContent = vnd(c.mentor);
+    const servicePrices = [
+    ['svc_giayphep', 'price_giayphep', c.giayphep],
+    ['svc_bientap', 'price_bientap', c.bientap],
+    ['svc_dantrang', 'price_dantrang', c.dantrang],
+    ['svc_bia', 'price_bia', c.bia],
+    ['svc_soatbong', 'price_soatbong', c.soatbong],
+    ['svc_soatin', 'price_soatin', c.soatin],
+    ['svc_inan', 'price_inan', c.inan],
+    ['svc_mentor', 'price_mentor', c.mentor]
+  ];
+
+  servicePrices.forEach(([checkboxId, priceId, value]) => {
+    const checkbox = document.getElementById(checkboxId);
+    const price = document.getElementById(priceId);
+
+    if (checkbox.checked) {
+      price.textContent = vnd(value);
+      price.style.display = '';
+    } else {
+      price.textContent = '';
+      price.style.display = 'none';
+    }
+  });
 
   const items = [
     {id:'svc_giayphep', name:'Giấy phép xuất bản', value:c.giayphep},
@@ -495,7 +510,7 @@ function render(){
     {id:'svc_soatbong', name:'Soát bông', value:c.soatbong},
     {id:'svc_soatin', name:'Soát in', value:c.soatin},
     {id:'svc_inan', name:'In ấn', value:c.inan},
-    {id:'svc_mentor', name:'Điều phối xuất bản', value:c.mentor},
+    {id:'svc_mentor', name:'Tư vấn xuất bản', value:c.mentor},
   ];
 
   const linesEl = document.getElementById('lines');
