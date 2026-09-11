@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kỳ Chương — Báo giá dịch vụ xuất bản</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFEAE0;
+    --paper-deep:#E4DDCC;
+    --ink:#221E17;
+    --ink-soft:#5B5548;
+    --rule:#C9BFA9;
+    --oxblood:#7A2E2E;
+    --oxblood-deep:#5E2222;
+    --ledger:#3E5346;
+    --white-ish:#FBF9F4;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.5;
+  }
+  .serif{font-family:'Newsreader', serif;}
+  header.masthead{
+    border-bottom:1px solid var(--rule);
+    padding:40px 24px 28px;
+  }
+  .masthead-inner{
+    max-width:1080px;
+    margin:0 auto;
+  }
+  .kicker{
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--oxblood);
+    margin:0 0 10px;
+  }
+  h1.title{
+    font-family:'Newsreader', serif;
+    font-weight:500;
+    font-size:clamp(32px, 5vw, 52px);
+    margin:0 0 12px;
+    letter-spacing:-0.01em;
+  }
+  p.lede{
+    max-width:620px;
+    font-size:17px;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  main{
+    max-width:1080px;
+    margin:0 auto;
+    padding:36px 24px 80px;
+  }
+  .layout{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:40px;
+    align-items:start;
+  }
+  @media (max-width: 860px){
+    .layout{grid-template-columns:1fr;}
+  }
+  section.card{
+    background:var(--white-ish);
+    border:1px solid var(--rule);
+  }
+  .form-card{padding:32px 32px 8px;}
+  .block{
+    padding-bottom:28px;
+    margin-bottom:28px;
+    border-bottom:1px solid var(--rule);
+  }
+  .block:last-of-type{border-bottom:none;}
+  h2.section-title{
+    font-family:'Newsreader', serif;
+    font-weight:500;
+    font-size:22px;
+    margin:0 0 4px;
+  }
+  p.section-note{
+    color:var(--ink-soft);
+    font-size:14px;
+    margin:0 0 18px;
+  }
+  label.field-label{
+    display:block;
+    font-size:14px;
+    font-weight:500;
+    margin-bottom:8px;
+  }
+  select, input[type="number"]{
+    width:100%;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    padding:12px 14px;
+    border:1px solid var(--rule);
+    background:var(--white-ish);
+    color:var(--ink);
+    border-radius:2px;
+  }
+  select:focus, input:focus{
+    outline:2px solid var(--oxblood);
+    outline-offset:1px;
+  }
+  .field-pair{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-top:20px;
+  }
+  @media (max-width:520px){
+    .field-pair{grid-template-columns:1fr;}
+  }
+  .hint{font-size:13px;color:var(--ink-soft);margin-top:6px;}
+
+  .service-row{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    padding:16px 0;
+    border-top:1px solid var(--rule);
+  }
+  .block > .service-row:first-of-type{border-top:none;padding-top:0;}
+  .service-row input[type="checkbox"]{
+    width:19px;height:19px;
+    margin-top:3px;
+    accent-color:var(--oxblood);
+    flex-shrink:0;
+  }
+  .service-text{flex:1;}
+  .service-name{font-weight:500;font-size:15.5px;}
+  .service-desc{font-size:13.5px;color:var(--ink-soft);margin-top:2px;}
+  .service-price{
+    font-family:'Newsreader', serif;
+    font-size:16.5px;
+    white-space:nowrap;
+    padding-top:2px;
+    min-width:120px;
+    text-align:right;
+  }
+  @media (max-width:520px){
+    .service-row{flex-wrap:wrap;}
+    .service-price{min-width:0;width:100%;text-align:left;margin-left:33px;}
+  }
+
+  /* Receipt / summary panel */
+  .receipt{
+    position:sticky;
+    top:24px;
+    background:var(--ink);
+    color:var(--paper);
+    padding:30px 28px;
+  }
+  .receipt h2{
+    font-family:'Newsreader', serif;
+    font-weight:500;
+    font-size:21px;
+    margin:0 0 4px;
+    color:var(--white-ish);
+  }
+  .receipt .receipt-sub{
+    font-size:13px;
+    color:#B9B2A0;
+    margin:0 0 20px;
+  }
+  .line{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    font-size:14px;
+    padding:9px 0;
+    border-bottom:1px solid #3A362D;
+  }
+  .line .l-name{color:#D8D2C2;}
+  .line .l-val{font-family:'Newsreader', serif;font-size:15px;text-align:right;}
+  .empty-note{
+    font-size:13.5px;
+    color:#9C9584;
+    padding:8px 0 4px;
+  }
+  .total-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding-top:20px;
+    margin-top:6px;
+  }
+  .total-label{font-size:14px;letter-spacing:0.02em;color:#D8D2C2;}
+  .total-value{
+    font-family:'Newsreader', serif;
+    font-size:32px;
+    color:#E7DCC9;
+  }
+  .cta-btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    text-decoration:none;
+    background:var(--oxblood);
+    color:var(--white-ish);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    font-size:15.5px;
+    padding:15px 18px;
+    margin-top:22px;
+    border:none;
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  .cta-btn:hover{background:var(--oxblood-deep);}
+  .cta-btn[disabled]{
+    background:#5A5648;
+    color:#9C9584;
+    cursor:not-allowed;
+  }
+  .attach-note{
+    font-size:12.5px;
+    color:#9C9584;
+    margin-top:12px;
+    line-height:1.55;
+  }
+  .attach-note b{color:#D8D2C2;}
+  .discount-note{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+  footer{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 24px 50px;
+    color:var(--ink-soft);
+    font-size:13px;
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="kicker">KỲ CHƯƠNG · DỊCH VỤ XUẤT BẢN</p>
+    <h1 class="title">Ước tính chi phí xuất bản</h1>
+    <p class="lede">Nhập thông tin bản thảo của bạn để xem báo giá chi tiết theo từng hạng mục. Nếu thấy hợp lý, gửi bản thảo cho chúng tôi để được tư vấn cụ thể hơn.</p>
+  </div>
+</header>
+
+<main>
+  <div class="layout">
+
+    <!-- FORM -->
+    <section class="card form-card">
+
+      <div class="block">
+        <h2 class="section-title">Thông tin bản thảo</h2>
+        <p class="section-note">Ba thông tin bắt buộc để tính chi phí cơ sở.</p>
+
+        <label class="field-label" for="theloai">Thể loại</label>
+        <select id="theloai">
+          <option value="van_hoc">Sách văn học</option>
+          <option value="tu_truyen">Tự truyện</option>
+          <option value="ky_nang">Sách kỹ năng sống</option>
+          <option value="nghien_cuu">Sách nghiên cứu</option>
+          <option value="chuyen_mon">Sách chuyên môn</option>
+          <option value="artist_book">Sách nghệ thuật (Artist book)</option>
+          <option value="luu_hanh_noi_bo">Sách lưu hành nội bộ</option>
+          <option value="catalogue">Catalogue / Publication</option>
+          <option value="khac">Các thể loại khác</option>
+        </select>
+
+        <div class="field-pair">
+          <div>
+            <label class="field-label" for="sotrang">Số trang dự kiến</label>
+            <input type="number" id="sotrang" min="1" value="120" step="1">
+            <p class="hint">Trang word khổ A4, font Times New Roman 12</p>
+          </div>
+          <div>
+            <label class="field-label" for="soluong">Số lượng bản in</label>
+            <input type="number" id="soluong" min="100" value="500" step="50">
+            <p class="hint">Tối thiểu 100 bản</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h2 class="section-title">Dịch vụ tùy chọn</h2>
+        <p class="section-note">Chọn những hạng mục bạn cần — giá cập nhật ngay theo thể loại và số trang đã nhập.</p>
+
+        <div class="service-row">
+          <input type="checkbox" id="svc_giayphep" checked>
+          <div class="service-text">
+            <div class="service-name">Giấy phép xuất bản</div>
+          </div>
+          <div class="service-price" id="price_giayphep">—</div>
+        </div>
+
+        <div class="service-row">
+          <input type="checkbox" id="svc_bientap" checked>
+          <div class="service-text">
+            <div class="service-name">Biên tập bản thảo</div>
+          </div>
+          <div class="service-price" id="price_bientap">—</div>
+        </div>
+
+        <div class="service-row">
+          <input type="checkbox" id="svc_dantrang" checked>
+          <div class="service-text">
+            <div class="service-name">Dàn trang</div>
+          </div>
+          <div class="service-price" id="price_dantrang">—</div>
+        </div>
+
+        <div class="service-row">
+          <input type="checkbox" id="svc_soatbong" checked>
+          <div class="service-text">
+            <div class="service-name">Soát bông</div>
+          </div>
+          <div class="service-price" id="price_soatbong">—</div>
+        </div>
+
+        <div class="service-row">
+          <input type="checkbox" id="svc_soatin" checked>
+          <div class="service-text">
+            <div class="service-name">Soát in</div>
+          </div>
+          <div class="service-price" id="price_soatin">—</div>
+        </div>
+
+        <div class="service-row">
+          <input type="checkbox" id="svc_inan" checked>
+          <div class="service-text">
+            <div class="service-name">In ấn</div>
+          </div>
+          <div class="service-price" id="price_inan">—</div>
+        </div>
+
+        <div class="service-row">
+          <input type="checkbox" id="svc_dieuphoi" checked>
+          <div class="service-text">
+            <div class="service-name">Dịch vụ điều phối xuất bản</div>
+          </div>
+          <div class="service-price" id="price_dieuphoi">—</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RECEIPT -->
+    <aside class="receipt">
+      <h2>Báo giá tạm tính</h2>
+      <p class="receipt-sub">Cập nhật theo lựa chọn của bạn</p>
+
+      <div id="lines"></div>
+
+      <div class="total-row">
+        <div class="total-label">TỔNG CỘNG</div>
+        <div class="total-value" id="total">0 đ</div>
+      </div>
+
+      <a href="#" class="cta-btn" id="contactBtn">Liên hệ ngay</a>
+
+      <p class="attach-note">
+        Nhấn nút trên sẽ mở email tới <b>kychuongdinghe@gmail.com</b> kèm sẵn nội dung báo giá bạn vừa chọn.
+        Email không tự đính kèm được tệp — sau khi cửa sổ soạn thư mở ra, vui lòng <b>đính kèm thủ công file bản thảo (dưới 50MB)</b> trước khi gửi.
+      </p>
+    </aside>
+
+  </div>
+</main>
+
+<footer>
+  Kỳ Chương — Dịch vụ xuất bản. Giá trên chỉ mang tính tham khảo, giá cuối cùng sẽ được xác nhận sau khi Kỳ Chương xem qua bản thảo cụ thể.
+</footer>
+
+<script>
+const CATEGORY_LABELS = {
+  van_hoc: "Sách văn học",
+  tu_truyen: "Tự truyện",
+  ky_nang: "Sách kỹ năng sống",
+  nghien_cuu: "Sách nghiên cứu",
+  chuyen_mon: "Sách chuyên môn",
+  artist_book: "Sách nghệ thuật (Artist book)",
+  luu_hanh_noi_bo: "Sách lưu hành nội bộ",
+  catalogue: "Catalogue / Publication",
+  khac: "Các thể loại khác"
+};
+
+const HIGH_EDIT_GROUP = new Set(["van_hoc","tu_truyen","ky_nang","nghien_cuu","chuyen_mon"]);
+
+function vnd(n){
+  return Math.round(n).toLocaleString('vi-VN') + " đ";
+}
+
+function getInputs(){
+  const theloai = document.getElementById('theloai').value;
+  let sotrang = parseInt(document.getElementById('sotrang').value, 10);
+  let soluong = parseInt(document.getElementById('soluong').value, 10);
+  if(isNaN(sotrang) || sotrang < 1) sotrang = 0;
+  if(isNaN(soluong) || soluong < 100) soluong = 100;
+  return {theloai, sotrang, soluong};
+}
+
+function computeAll(){
+  const {theloai, sotrang, soluong} = getInputs();
+
+  // Giấy phép xuất bản
+  const giayphep = (theloai === 'catalogue') ? 0 : 10000000;
+
+  // Biên tập bản thảo
+  const bientapRate = HIGH_EDIT_GROUP.has(theloai) ? 25000 : 20000;
+  const bientap = bientapRate * sotrang;
+
+  // Dàn trang
+  const dantrangRate = (theloai === 'artist_book' || theloai === 'catalogue') ? 30000 : 10000;
+  const dantrang = dantrangRate * sotrang;
+
+  // Soát bông / soát in
+  const soatbong = 6000 * sotrang;
+  const soatin = 6000 * sotrang;
+
+  // In ấn
+  let inanRate;
+  if(theloai === 'artist_book'){
+    inanRate = 120000;
+  } else {
+    inanRate = sotrang >= 100 ? 70000 : 50000;
+  }
+  const steps = Math.floor(soluong / 1000);
+  const discountPct = Math.min(steps * 10, 50); // giới hạn giảm tối đa 50%
+  const inan = inanRate * soluong * (1 - discountPct/100);
+
+  // Điều phối xuất bản
+  const dieuphoi = 10000000;
+
+  return {
+    giayphep, bientap, bientapRate, dantrang, dantrangRate,
+    soatbong, soatin, inan, inanRate, discountPct, dieuphoi,
+    sotrang, soluong, theloai
+  };
+}
+
+function render(){
+  const c = computeAll();
+
+  document.getElementById('price_giayphep').textContent = vnd(c.giayphep);
+  document.getElementById('price_bientap').textContent = vnd(c.bientap);
+  document.getElementById('price_dantrang').textContent = vnd(c.dantrang);
+  document.getElementById('price_soatbong').textContent = vnd(c.soatbong);
+  document.getElementById('price_soatin').textContent = vnd(c.soatin);
+  document.getElementById('price_inan').textContent = vnd(c.inan);
+  document.getElementById('price_dieuphoi').textContent = vnd(c.dieuphoi);
+
+  const items = [
+    {id:'svc_giayphep', name:'Giấy phép xuất bản', value:c.giayphep},
+    {id:'svc_bientap', name:'Biên tập bản thảo', value:c.bientap},
+    {id:'svc_dantrang', name:'Dàn trang', value:c.dantrang},
+    {id:'svc_soatbong', name:'Soát bông', value:c.soatbong},
+    {id:'svc_soatin', name:'Soát in', value:c.soatin},
+    {id:'svc_inan', name:'In ấn', value:c.inan},
+    {id:'svc_dieuphoi', name:'Điều phối xuất bản', value:c.dieuphoi},
+  ];
+
+  const linesEl = document.getElementById('lines');
+  linesEl.innerHTML = '';
+  let total = 0;
+  let anyChecked = false;
+
+  items.forEach(item => {
+    const checked = document.getElementById(item.id).checked;
+    if(checked){
+      anyChecked = true;
+      total += item.value;
+      const row = document.createElement('div');
+      row.className = 'line';
+      row.innerHTML = `<span class="l-name">${item.name}</span><span class="l-val">${vnd(item.value)}</span>`;
+      linesEl.appendChild(row);
+    }
+  });
+
+  if(!anyChecked){
+    const p = document.createElement('p');
+    p.className = 'empty-note';
+    p.textContent = 'Chưa chọn dịch vụ nào.';
+    linesEl.appendChild(p);
+  }
+
+  document.getElementById('total').textContent = vnd(total);
+
+  updateContactLink(c, items, total);
+}
+
+function updateContactLink(c, items, total){
+  const btn = document.getElementById('contactBtn');
+  const {sotrang, soluong} = getInputs();
+  const categoryLabel = CATEGORY_LABELS[c.theloai];
+
+  let body = `Kính gửi Kỳ Chương,\n\nTôi muốn liên hệ đặt dịch vụ xuất bản với thông tin sau:\n\n`;
+  body += `- Thể loại: ${categoryLabel}\n`;
+  body += `- Số trang dự kiến: ${sotrang} trang\n`;
+  body += `- Số lượng bản in: ${soluong} bản\n\n`;
+  body += `Dịch vụ tùy chọn đã chọn:\n`;
+
+  let hasItems = false;
+  items.forEach(item => {
+    if(document.getElementById(item.id).checked){
+      hasItems = true;
+      body += `- ${item.name}: ${vnd(item.value)}\n`;
+    }
+  });
+  if(!hasItems) body += `(chưa chọn dịch vụ tùy chọn nào)\n`;
+
+  body += `\nTỔNG CỘNG TẠM TÍNH: ${vnd(total)}\n\n`;
+  body += `[Vui lòng đính kèm file bản thảo (dưới 50MB) vào email này trước khi gửi]\n\n`;
+  body += `Cảm ơn Kỳ Chương.`;
+
+  const subject = `Yêu cầu báo giá xuất bản — ${categoryLabel} — ${sotrang} trang — ${soluong} bản`;
+  const mailto = `mailto:kychuongdinghe@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  btn.href = mailto;
+}
+
+['theloai','sotrang','soluong'].forEach(id => {
+  document.getElementById(id).addEventListener('input', render);
+  document.getElementById(id).addEventListener('change', render);
+});
+
+['svc_giayphep','svc_bientap','svc_dantrang','svc_soatbong','svc_soatin','svc_inan','svc_dieuphoi'].forEach(id => {
+  document.getElementById(id).addEventListener('change', render);
+});
+
+render();
+</script>
+
+</body>
+</html>
