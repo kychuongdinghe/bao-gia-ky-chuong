@@ -443,7 +443,7 @@ function computeAll(){
   const dieuphoi = 10000000;
 
   return {
-    giayphep, bientap, bientapRate, dantrang, dantrangRate,
+    giayphep, bientap, bientapRate, dantrang, dantrangRate, bia, biaRate,
     soatbong, soatin, inan, inanRate, discountPct, dieuphoi,
     sotrang, soluong, theloai
   };
@@ -544,7 +544,7 @@ function updateContactLink(c, items, total){
   document.getElementById(id).addEventListener('change', render);
 });
 
-['svc_giayphep','svc_bientap','svc_dantrang','svc_soatbong','svc_soatin','svc_inan','svc_dieuphoi'].forEach(id => {
+['svc_giayphep','svc_bientap','svc_dantrang','svc_bia','svc_soatbong','svc_soatin','svc_inan','svc_dieuphoi'].forEach(id => {
   document.getElementById(id).addEventListener('change', render);
 });
 
