@@ -449,7 +449,7 @@ function computeAll(){
   if(theloai === 'artist_book'){
     inanRate = 180000;
   } else {
-    inanRate = sotrang >= 100 ? 70000 : 50000;
+    inanRate = sotrang >= 100 ? 50000 : 30000;
   }
   const steps = Math.floor(soluong / 1000);
   const discountPct = Math.min(steps * 10, 50); // giới hạn giảm tối đa 50%
