@@ -352,7 +352,7 @@ body{
           <input type="checkbox" id="svc_inan">
           <div class="service-text">
               <span class="service-name">In ấn</span>
-                <span class="service-hint">Tùy vào yêu cầu quy cách và số lượng bản in</span>
+                <span class="service-hint">Tùy vào yêu cầu quy cách (khổ, ruột, bìa, gia công thành phẩm) và số lượng bản in</span>
           </div>
           <div class="service-price" id="price_inan">—</div>
         </div>
@@ -449,7 +449,7 @@ function computeAll(){
   if(theloai === 'artist_book'){
     inanRate = 180000;
   } else {
-    inanRate = sotrang >= 100 ? 50000 : 30000;
+    inanRate = sotrang >= 200 ? 50000 : 30000;
   }
   const steps = Math.floor(soluong / 1000);
   const discountPct = Math.min(steps * 10, 50); // giới hạn giảm tối đa 50%
