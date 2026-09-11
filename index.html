@@ -305,6 +305,14 @@ body{
         </div>
 
         <div class="service-row">
+          <input type="checkbox" id="svc_bia" checked>
+          <div class="service-text">
+            <div class="service-name">Bìa</div>
+          </div>
+          <div class="service-price" id="price_bia">—</div>
+        </div>
+
+        <div class="service-row">
           <input type="checkbox" id="svc_soatbong" checked>
           <div class="service-text">
             <div class="service-name">Soát bông</div>
@@ -358,7 +366,7 @@ body{
 
       <p class="attach-note">
         Nhấn nút trên sẽ mở email tới <b>kychuongdinghe@gmail.com</b> kèm sẵn nội dung báo giá bạn vừa chọn.
-        Email không tự đính kèm được tệp — sau khi cửa sổ soạn thư mở ra, vui lòng <b>đính kèm thủ công file bản thảo (dưới 50MB)</b> trước khi gửi.
+        Email không tự đính kèm được tệp. Sau khi cửa sổ soạn thư mở ra, vui lòng <b>đính kèm file bản thảo (dưới 50MB)</b> trước khi gửi.
       </p>
     </aside>
 
@@ -366,7 +374,7 @@ body{
 </main>
 
 <footer>
-  Giá trên chỉ mang tính tham khảo, giá cuối cùng sẽ được xác nhận sau khi Kỳ Chương xem qua bản thảo cụ thể.
+  Giá trên chỉ mang tính tham khảo, giá cuối cùng sẽ được xác nhận sau khi Kỳ Chương xem qua bản thảo và thảo luận chi tiết cụ thể.
 </footer>
 
 </div>  
@@ -413,6 +421,9 @@ function computeAll(){
   const dantrangRate = (theloai === 'artist_book' || theloai === 'catalogue') ? 50000 : 10000;
   const dantrang = dantrangRate * sotrang;
 
+   // Bìa
+  const biaRate = (theloai === 'artist_book' || theloai === 'catalogue') ? 5000000 : 3000000;
+  
   // Soát bông / soát in
   const soatbong = 6000 * sotrang;
   const soatin = 6000 * sotrang;
@@ -460,6 +471,7 @@ function render(){
     {id:'svc_giayphep', name:'Giấy phép xuất bản', value:c.giayphep},
     {id:'svc_bientap', name:'Biên tập bản thảo', value:c.bientap},
     {id:'svc_dantrang', name:'Dàn trang', value:c.dantrang},
+    {id:'svc_bia', name:'Bìa', value:c.bia},
     {id:'svc_soatbong', name:'Soát bông', value:c.soatbong},
     {id:'svc_soatin', name:'Soát in', value:c.soatin},
     {id:'svc_inan', name:'In ấn', value:c.inan},
@@ -500,7 +512,7 @@ function updateContactLink(c, items, total){
   const {sotrang, soluong} = getInputs();
   const categoryLabel = CATEGORY_LABELS[c.theloai];
 
-  let body = `Kính gửi Kỳ Chương,\n\nTôi muốn liên hệ đặt dịch vụ xuất bản với thông tin sau:\n\n`;
+  let body = `Tôi muốn liên hệ đặt dịch vụ xuất bản với thông tin sau:\n`;
   body += `- Thể loại: ${categoryLabel}\n`;
   body += `- Số trang dự kiến: ${sotrang} trang\n`;
   body += `- Số lượng bản in: ${soluong} bản\n\n`;
@@ -517,7 +529,7 @@ function updateContactLink(c, items, total){
 
   body += `\nTỔNG CỘNG TẠM TÍNH: ${vnd(total)}\n\n`;
   body += `[Vui lòng đính kèm file bản thảo (dưới 50MB) vào email này trước khi gửi]\n\n`;
-  body += `Cảm ơn Kỳ Chương.`;
+  body += `Yêu cầu liên hệ qua số điện thoại hoặc zalo: [điền số điện thoại của bạn vào đây]`;
 
   const subject = `Yêu cầu báo giá xuất bản — ${categoryLabel} — ${sotrang} trang — ${soluong} bản`;
   const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=kychuongdinghe@gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
